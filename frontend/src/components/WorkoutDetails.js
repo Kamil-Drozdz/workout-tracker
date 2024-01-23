@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useWorkoutsContext } from '../hooks/useWorkoutsContext';
-import { useAuthContext } from '../hooks/useAuthContext';
-import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import React, { useState } from "react";
+import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
+import { useAuthContext } from "../hooks/useAuthContext";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 const WorkoutDetails = ({ workout }) => {
   const { dispatch } = useWorkoutsContext();
@@ -18,16 +18,16 @@ const WorkoutDetails = ({ workout }) => {
       return;
     }
 
-    // ${process.env.BASE_URL/api...}
+    // ${process.env.REACT_APP_BASE_URL/api...}
 
     try {
       const response = await fetch(
-        `${process.env.BASE_URL}/api/workouts/${workout._id}`,
+        `${process.env.REACT_APP_BASE_URL}/api/workouts/${workout._id}`,
         {
-          method: 'PATCH',
+          method: "PATCH",
           body: JSON.stringify(editedWorkout),
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${user.token}`,
           },
         }
@@ -36,13 +36,13 @@ const WorkoutDetails = ({ workout }) => {
       const json = await response.json();
 
       if (response.ok) {
-        dispatch({ type: 'UPDATE_WORKOUT', payload: json });
+        dispatch({ type: "UPDATE_WORKOUT", payload: json });
         setIsEditing(false);
       } else {
-        console.error('Update failed:', response.statusText);
+        console.error("Update failed:", response.statusText);
       }
     } catch (error) {
-      console.error('Error during update:', error);
+      console.error("Error during update:", error);
     }
   };
 
@@ -61,9 +61,9 @@ const WorkoutDetails = ({ workout }) => {
     }
 
     const response = await fetch(
-      `${process.env.BASE_URL}/api/workouts/${workout._id}`,
+      `${process.env.REACT_APP_BASE_URL}/api/workouts/${workout._id}`,
       {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -73,7 +73,7 @@ const WorkoutDetails = ({ workout }) => {
     const json = await response.json();
 
     if (response.ok) {
-      dispatch({ type: 'DELETE_WORKOUT', payload: json });
+      dispatch({ type: "DELETE_WORKOUT", payload: json });
     }
   };
 
@@ -105,7 +105,7 @@ const WorkoutDetails = ({ workout }) => {
               setEditedWorkout({ ...editedWorkout, reps: e.target.value })
             }
           />
-          <button style={{ marginRight: '10px' }} onClick={handleUpdate}>
+          <button style={{ marginRight: "10px" }} onClick={handleUpdate}>
             Update
           </button>
           <button onClick={handleCancelEdit}>Cancel</button>
